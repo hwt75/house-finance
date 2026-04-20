@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cân Đối Tài Chính Mua Nhà - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slider { -webkit-appearance: none; width: 100%; height: 8px; background: #e2e8f0; border-radius: 5px; outline: none; }
+        .slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; background: #3b82f6; cursor: pointer; border-radius: 50%; }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800">BẢNG TÍNH CÂN ĐỐI TÀI CHÍNH</h1>
+            <p class="text-gray-600">Điều chỉnh thông số để tối ưu dòng tiền hàng tháng</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-1 bg-white p-6 rounded-2xl card-shadow space-y-6">
+                <h2 class="font-bold text-lg border-b pb-2">Thông Số Nhập Liệu</h2>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Giá căn hộ: <span id="val_nha" class="text-blue-600 font-bold">2.8</span> tỷ</label>
+                    <input type="range" id="nha" min="1" max="10" step="0.1" value="2.8" class="slider">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Vốn sẵn có: <span id="val_von" class="text-blue-600 font-bold">1.5</span> tỷ</label>
+                    <input type="range" id="von" min="0" max="5" step="0.1" value="1.5" class="slider">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tổng vốn vay: <span id="val_vay" class="text-red-600 font-bold">3.0</span> tỷ</label>
+                    <input type="range" id="vay" min="1" max="10" step="0.1" value="3.0" class="slider">
+                </div>
+
+                <div class="pt-4 border-t">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất vay (%/năm): <span id="val_ls_vay" class="text-gray-900 font-bold">9</span>%</label>
+                    <input type="range" id="ls_vay" min="1" max="15" step="0.5" value="9" class="slider">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất đầu tư (%/năm): <span id="val_ls_dt" class="text-green-600 font-bold">4</span>%</label>
+                    <input type="range" id="ls_dt" min="2" max="12" step="0.5" value="4" class="slider">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian vay: <span id="val_tg" class="text-gray-900 font-bold">20</span> năm</label>
+                    <input type="range" id="tg" min="1" max="35" step="1" value="20" class="slider">
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div class="bg-blue-600 text-white p-8 rounded-2xl card-shadow text-center">
+                    <p class="text-blue-100 uppercase tracking-widest text-sm font-semibold mb-2">Số tiền cần thanh toán thực tế</p>
+                    <h2 class="text-5xl font-extrabold mb-2" id="res_thuc_tra">29.333.333</h2>
+                    <p class="text-blue-200">VNĐ / tháng</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-6 rounded-2xl border-l-8 border-red-500 shadow-sm">
+                        <p class="text-gray-500 text-sm">Tổng gốc + lãi vay (3 tỷ)</p>
+                        <h3 class="text-2xl font-bold text-red-600" id="res_chi">- 35.000.000</h3>
+                        <p class="text-xs text-gray-400 mt-2">Nghĩa vụ với Ngân hàng</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-l-8 border-green-500 shadow-sm">
+                        <p class="text-gray-500 text-sm">Lợi nhuận đầu tư (1.7 tỷ)</p>
+                        <h3 class="text-2xl font-bold text-green-600" id="res_thu">+ 5.666.667</h3>
+                        <p class="text-xs text-gray-400 mt-2">Từ vốn vay chưa sử dụng</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl card-shadow">
+                    <h3 class="font-bold text-gray-800 mb-4 text-center uppercase">Phân bổ nguồn vốn</h3>
+                    <div class="flex h-8 w-full rounded-full overflow-hidden border">
+                        <div id="bar_nha" class="bg-blue-500" style="width: 43%;"></div>
+                        <div id="bar_dt" class="bg-green-500" style="width: 57%;"></div>
+                    </div>
+                    <div class="flex justify-between mt-3 text-sm">
+                        <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>Vốn mua nhà: <b id="txt_von_nha" class="ml-1">1.3 tỷ</b></span>
+                        <span class="flex items-center"><span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>Vốn đầu tư: <b id="txt_von_dt" class="ml-1">1.7 tỷ</b></span>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
+                    <p class="text-sm text-yellow-800 text-center">
+                        💡 <b>Lời khuyên:</b> Hãy cân nhắc đầu tư vào các kênh có lợi nhuận > <span id="tip_ls">8</span>% để tối ưu lợi ích tài chính.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = ['nha', 'von', 'vay', 'ls_vay', 'ls_dt', 'tg'];
+        
+        function formatMoney(num) {
+            return num.toLocaleString('vi-VN');
+        }
+
+        function calculate() {
+            // Lấy giá trị
+            const nha = parseFloat(document.getElementById('nha').value);
+            const von = parseFloat(document.getElementById('von').value);
+            const vay = parseFloat(document.getElementById('vay').value);
+            const ls_vay = parseFloat(document.getElementById('ls_vay').value) / 100;
+            const ls_dt = parseFloat(document.getElementById('ls_dt').value) / 100;
+            const tg = parseInt(document.getElementById('tg').value);
+
+            // Cập nhật text hiển thị cạnh slider
+            document.getElementById('val_nha').innerText = nha;
+            document.getElementById('val_von').innerText = von;
+            document.getElementById('val_vay').innerText = vay;
+            document.getElementById('val_ls_vay').innerText = ls_vay * 100;
+            document.getElementById('val_ls_dt').innerText = ls_dt * 100;
+            document.getElementById('val_tg').innerText = tg;
+            document.getElementById('tip_ls').innerText = ls_vay * 100;
+
+            // Logic tính toán (Tỷ -> VNĐ)
+            const von_thuc_dung = Math.max(0, nha - von);
+            const von_dau_tu = Math.max(0, vay - von_thuc_dung);
+
+            // Gốc và lãi hàng tháng (Tính trên tổng 3 tỷ)
+            const goc_thang = (von_thuc_dung * 1000000000) / (tg * 12);
+            const lai_vay_thang = (vay * 1000000000 * ls_vay) / 12;
+            const tong_chi = goc_thang + lai_vay_thang;
+
+            // Thu nhập từ đầu tư
+            const thu_nhap_dt = (von_dau_tu * 1000000000 * ls_dt) / 12;
+
+            // Thực trả
+            const thuc_tra = tong_chi - thu_nhap_dt;
+
+            // Cập nhật UI
+            document.getElementById('res_chi').innerText = "- " + formatMoney(Math.round(tong_chi));
+            document.getElementById('res_thu').innerText = "+ " + formatMoney(Math.round(thu_nhap_dt));
+            document.getElementById('res_thuc_tra').innerText = formatMoney(Math.round(thuc_tra));
+            
+            // Cập nhật Progress Bar
+            const total_parts = von_thuc_dung + von_dau_tu;
+            const nha_pct = (von_thuc_dung / total_parts) * 100;
+            const dt_pct = (von_dau_tu / total_parts) * 100;
+            
+            document.getElementById('bar_nha').style.width = nha_pct + "%";
+            document.getElementById('bar_dt').style.width = dt_pct + "%";
+            document.getElementById('txt_von_nha').innerText = von_thuc_dung.toFixed(1) + " tỷ";
+            document.getElementById('txt_von_dt').innerText = von_dau_tu.toFixed(1) + " tỷ";
+        }
+
+        // Lắng nghe sự kiện thay đổi
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', calculate);
+        });
+
+        // Chạy lần đầu
+        calculate();
+    </script>
+</body>
+</html>
