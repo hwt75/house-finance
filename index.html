@@ -40,18 +40,18 @@
                 </div>
 
                 <div class="pt-4 border-t">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất vay (%/năm): <span id="val_ls_vay" class="text-gray-900 font-bold">9</span>%</label>
-                    <input type="range" id="ls_vay" min="1" max="15" step="0.5" value="9" class="slider">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất vay (%/năm): <span id="val_ls_vay" class="text-gray-900 font-bold">6</span>%</label>
+                    <input type="range" id="ls_vay" min="1" max="15" step="0.1" value="6" class="slider">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất đầu tư (%/năm): <span id="val_ls_dt" class="text-green-600 font-bold">4</span>%</label>
-                    <input type="range" id="ls_dt" min="2" max="12" step="0.5" value="4" class="slider">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất đầu tư (%/năm): <span id="val_ls_dt" class="text-green-600 font-bold">6</span>%</label>
+                    <input type="range" id="ls_dt" min="2" max="12" step="0.1" value="6" class="slider">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian vay: <span id="val_tg" class="text-gray-900 font-bold">20</span> năm</label>
-                    <input type="range" id="tg" min="1" max="35" step="1" value="20" class="slider">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian vay: <span id="val_tg" class="text-gray-900 font-bold">5</span> năm</label>
+                    <input type="range" id="tg" min="1" max="35" step="0.5" value="5" class="slider">
                 </div>
             </div>
 
@@ -59,19 +59,19 @@
                 
                 <div class="bg-blue-600 text-white p-8 rounded-2xl card-shadow text-center">
                     <p class="text-blue-100 uppercase tracking-widest text-sm font-semibold mb-2">Số tiền cần thanh toán thực tế</p>
-                    <h2 class="text-5xl font-extrabold mb-2" id="res_thuc_tra">29.333.333</h2>
+                    <h2 class="text-5xl font-extrabold mb-2" id="res_thuc_tra">24.391.667</h2>
                     <p class="text-blue-200">VNĐ / tháng</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-white p-6 rounded-2xl border-l-8 border-red-500 shadow-sm">
-                        <p class="text-gray-500 text-sm">Tổng gốc + lãi vay (3 tỷ)</p>
+                        <p class="text-gray-500 text-sm">Tổng gốc + lãi vay</p>
                         <h3 class="text-2xl font-bold text-red-600" id="res_chi">- 35.000.000</h3>
                         <p class="text-xs text-gray-400 mt-2">Nghĩa vụ với Ngân hàng</p>
                     </div>
 
                     <div class="bg-white p-6 rounded-2xl border-l-8 border-green-500 shadow-sm">
-                        <p class="text-gray-500 text-sm">Lợi nhuận đầu tư (1.7 tỷ)</p>
+                        <p class="text-gray-500 text-sm">Lợi nhuận đầu tư</p>
                         <h3 class="text-2xl font-bold text-green-600" id="res_thu">+ 5.666.667</h3>
                         <p class="text-xs text-gray-400 mt-2">Từ vốn vay chưa sử dụng</p>
                     </div>
