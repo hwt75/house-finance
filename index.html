@@ -15,7 +15,7 @@
 
     <div class="max-w-5xl mx-auto">
         <header class="mb-8 text-center">
-            <h1 class="text-3xl font-bold text-gray-800">BẢNG TÍNH CÂN ĐỐI TÀI CHÍNH</h1>
+            <h1 class="text-3xl font-bold text-gray-800">BẢNG TÍNH CÂN ĐỐI TÀI CHÍNH (Mua nhà trả thẳng)</h1>
             <p class="text-gray-600">Điều chỉnh thông số để tối ưu dòng tiền hàng tháng</p>
         </header>
 
@@ -40,13 +40,13 @@
                 </div>
 
                 <div class="pt-4 border-t">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất vay (%/năm): <span id="val_ls_vay" class="text-gray-900 font-bold">6</span>%</label>
-                    <input type="range" id="ls_vay" min="1" max="15" step="0.1" value="6" class="slider">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất vay (%/năm): <span id="val_ls_vay" class="text-gray-900 font-bold">5</span>%</label>
+                    <input type="range" id="ls_vay" min="1" max="15" step="0.1" value="5" class="slider">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất đầu tư (%/năm): <span id="val_ls_dt" class="text-green-600 font-bold">6</span>%</label>
-                    <input type="range" id="ls_dt" min="2" max="12" step="0.1" value="6" class="slider">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Lãi suất đầu tư (%/năm): <span id="val_ls_dt" class="text-green-600 font-bold">6.9</span>%</label>
+                    <input type="range" id="ls_dt" min="2" max="12" step="0.1" value="6.9" class="slider">
                 </div>
 
                 <div>
@@ -62,18 +62,23 @@
                     <h2 class="text-5xl font-extrabold mb-2" id="res_thuc_tra">24.391.667</h2>
                     <p class="text-blue-200">VNĐ / tháng</p>
                 </div>
+                 <div class="bg-orange-600 text-white p-8 rounded-2xl card-shadow text-center">
+                    <p class="text-blue-100 uppercase tracking-widest text-sm font-semibold mb-2">Số tiền lãi cần thanh toán thực tế (số tiền lãi của khoản vay - số tiền lãi từ đầu tư)</p>
+                    <h2 class="text-5xl font-extrabold mb-2" id="res_lai_thuc_tra">163.500.000</h2>
+                    <p class="text-blue-200">VNĐ</p>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-white p-6 rounded-2xl border-l-8 border-red-500 shadow-sm">
-                        <p class="text-gray-500 text-sm">Tổng gốc + lãi vay</p>
-                        <h3 class="text-2xl font-bold text-red-600" id="res_chi">- 35.000.000</h3>
-                        <p class="text-xs text-gray-400 mt-2">Nghĩa vụ với Ngân hàng</p>
+                        <p class="text-gray-500 text-sm">Tổng giá trị căn hộ</p>
+                        <h3 class="text-2xl font-bold text-red-600" id="res_chi">2.963.500.000</h3>
+                        <p class="text-xs text-gray-400 mt-2">Bao gồm giá trị gốc và lãi suất ngân hàng</p>
                     </div>
 
                     <div class="bg-white p-6 rounded-2xl border-l-8 border-green-500 shadow-sm">
-                        <p class="text-gray-500 text-sm">Lợi nhuận đầu tư</p>
-                        <h3 class="text-2xl font-bold text-green-600" id="res_thu">+ 5.666.667</h3>
-                        <p class="text-xs text-gray-400 mt-2">Từ vốn vay chưa sử dụng</p>
+                        <p class="text-gray-500 text-sm">Tổng số tiền cần trả trong 1 năm</p>
+                        <h3 class="text-2xl font-bold text-green-600" id="res_thu">292.700.000</h3>
+                        <!-- <p class="text-xs text-gray-400 mt-2">Từ vốn vay chưa sử dụng</p> -->
                     </div>
                 </div>
 
@@ -113,7 +118,7 @@
             const vay = parseFloat(document.getElementById('vay').value);
             const ls_vay = parseFloat(document.getElementById('ls_vay').value) / 100;
             const ls_dt = parseFloat(document.getElementById('ls_dt').value) / 100;
-            const tg = parseInt(document.getElementById('tg').value);
+            const tg = parseFloat(document.getElementById('tg').value);
 
             // Cập nhật text hiển thị cạnh slider
             document.getElementById('val_nha').innerText = nha;
@@ -132,17 +137,24 @@
             const goc_thang = (von_thuc_dung * 1000000000) / (tg * 12);
             const lai_vay_thang = (vay * 1000000000 * ls_vay) / 12;
             const tong_chi = goc_thang + lai_vay_thang;
-
+            
             // Thu nhập từ đầu tư
-            const thu_nhap_dt = (von_dau_tu * 1000000000 * ls_dt) / 12;
+            const thu_nhap_dt = (von_dau_tu * 1000000000 * ls_dt) / 12 ;
 
             // Thực trả
             const thuc_tra = tong_chi - thu_nhap_dt;
-
+            // Tổng số tiền cần trả trong 1 năm
+            const tong_thuc_tra_nam = thuc_tra * 12;
+            // lãi thực trả
+            const lai_thuc_tra = vay * 1000000000 * ls_vay * tg - von_dau_tu * 1000000000 * ls_dt * tg;
+            // Tổng giá trị căn hộ
+            const tong_gia_tri = nha * 1000000000 + lai_thuc_tra;
             // Cập nhật UI
-            document.getElementById('res_chi').innerText = "- " + formatMoney(Math.round(tong_chi));
-            document.getElementById('res_thu').innerText = "+ " + formatMoney(Math.round(thu_nhap_dt));
+            document.getElementById('res_chi').innerText = formatMoney(Math.round(tong_gia_tri));
+            document.getElementById('res_thu').innerText = formatMoney(Math.round(tong_thuc_tra_nam));
             document.getElementById('res_thuc_tra').innerText = formatMoney(Math.round(thuc_tra));
+             document.getElementById('res_lai_thuc_tra').innerText = formatMoney(Math.round(lai_thuc_tra));
+
             
             // Cập nhật Progress Bar
             const total_parts = von_thuc_dung + von_dau_tu;
